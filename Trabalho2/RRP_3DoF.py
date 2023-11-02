@@ -1,7 +1,7 @@
 from ManipuladoresFunctions import *
 import sympy as sp
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 theta1 = sp.Symbol('theta{1}*')
 theta2 = sp.Symbol('theta{2}*')
@@ -19,11 +19,12 @@ denavit_rrp_3dof = {
 }
 
 F0 = sp.eye(4)
+
 for key,item in denavit_rrp_3dof.items():
     if key == 'A0':
-        A0 = Z_Sym_Translation(item[0])*Z_Sym_Rotation(item[1])*X_Sym_Translation(item[2])*X_Sym_Rotation(item[3])
+        A0 = Denavit_Frame_Sym(item)
         F1 = F0 * A0
-    exec(key +'=Z_Sym_Translation(item[0])*Z_Sym_Rotation(item[1])*X_Sym_Translation(item[2])*X_Sym_Rotation(item[3])')
+    exec(key +'= Denavit_Frame_Sym(item)')
 
 F2 = F1*A1
 
@@ -41,10 +42,18 @@ junta1 = 0
 junta2 = 0
 junta3 = 0
 
-F1_num = F1.subs([(l1,l1_real),(l2,l2_real),(theta1,junta1),(theta2,junta3),(l3,junta3)])
+F1_num = F1.subs([(l1,l1_real),(l2,l2_real),(theta1,junta1),(theta2,junta2),(l3,junta3)])
 
-F2_num = F2.subs([(l1,l1_real),(l2,l2_real),(theta1,junta1),(theta2,junta3),(l3,junta3)])
+F2_num = F2.subs([(l1,l1_real),(l2,l2_real),(theta1,junta1),(theta2,junta2),(l3,junta3)])
 
-F3_num = F3.subs([(l1,l1_real),(l2,l2_real),(theta1,junta1),(theta2,junta3),(l3,junta3)])
+F3_num = F3.subs([(l1,l1_real),(l2,l2_real),(theta1,junta1),(theta2,junta2),(l3,junta3)])
 
 sp.pprint(F3_num)
+
+sp.pprint(sp.nsimplify(F3_num,tolerance=1e-10,rational=True))
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.scatter(F3_num[0,3],F3_num[1,3],F3_num[2,3],marker='o',color='black')
+plt.show()

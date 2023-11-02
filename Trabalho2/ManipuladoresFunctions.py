@@ -127,6 +127,7 @@ def Z_Sym_Rotation(theta):
     """
     :param theta: symbolic theta
     :return: matriz simbólica de rotação no eixo z
+    
     Função que retorna a matriz de rotação em z simbólica
     """
     return sp.Matrix([[sp.cos(theta), -sp.sin(theta), 0, 0],
@@ -134,3 +135,12 @@ def Z_Sym_Rotation(theta):
                       [0, 0, 1, 0],
                       [0, 0, 0, 1]])
 
+def Denavit_Frame_Sym(variables):
+    """
+    :param variables: lista de variaveis de Denavit-Hartenberg
+    :return: matriz de transformação homogênea
+
+    Função que retorna a matriz simbólica de transformação homogênea de Denavit-Hartenberg a partir
+    da transformação Tz*Tz*Rz*Tx"""
+    Frame = Z_Sym_Translation(variables[0])*Z_Sym_Rotation(variables[1])*X_Sym_Translation(variables[2])*X_Sym_Rotation(variables[3])
+    return Frame
