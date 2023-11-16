@@ -67,4 +67,5 @@ PlotFrame(F3_num,ax,3)
 
 plt.xlabel('X')
 plt.ylabel('Y')
+plt.title('Robô RRR Articulado')
 plt.show()
