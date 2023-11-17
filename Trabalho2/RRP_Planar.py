@@ -20,7 +20,7 @@ d3 = sp.Symbol("L3*")
 denavit_rrp_3dof = {
     "A0": [0, theta1, l1, 0],
     "A1": [0, np.deg2rad(90) + theta2, 0, np.deg2rad(90)],
-    "A2": [l2 + l3, 0, 0, 0],
+    "A2": [l2 + d3, 0, 0, 0],
 }
 
 # criando frame 0 como identidade
@@ -45,7 +45,7 @@ l1_real = 2
 l2_real = 2
 
 # inserindo valores das juntas em radianos (prismatica em sla qual medida)
-junta1 = 0
+junta1 = np.deg2rad(45)
 junta2 = np.deg2rad(45)
 junta3 = 3
 
@@ -53,15 +53,15 @@ junta3 = 3
 # Caso quiséssemos ter ido direto para o numerico, na parte de criar as matrizes de denavit hatenberg
 # poderiamos ter chamada a função Denavit_Frame_Num ao invés de Denavit_Frame_Sym
 F1_num = F1.subs(
-    [(l1, l1_real), (l2, l2_real), (theta1, junta1), (theta2, junta2), (l3, junta3)]
+    [(l1, l1_real), (l2, l2_real), (theta1, junta1), (theta2, junta2), (d3, junta3)]
 )
 
 F2_num = F2.subs(
-    [(l1, l1_real), (l2, l2_real), (theta1, junta1), (theta2, junta2), (l3, junta3)]
+    [(l1, l1_real), (l2, l2_real), (theta1, junta1), (theta2, junta2), (d3, junta3)]
 )
 
 F3_num = F3.subs(
-    [(l1, l1_real), (l2, l2_real), (theta1, junta1), (theta2, junta2), (l3, junta3)]
+    [(l1, l1_real), (l2, l2_real), (theta1, junta1), (theta2, junta2), (d3, junta3)]
 )
 
 # simplicando matrizes para que números fiquem como zero e tals e nao e-17
@@ -84,4 +84,5 @@ PlotFrame(F3_num, ax, 3)
 
 plt.xlabel("X")
 plt.ylabel("Y")
+plt.title("Robô RRP Planar (45°,45°,3)")
 plt.show()
